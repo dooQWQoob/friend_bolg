@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.UserMapper">
+
+    <update id="updateUserPhoneAndUserPassword">
+        update t_user set is_delete = 0 where user_phone = #{userPhone,jdbcType=VARCHAR} and user_password = #{userPassword,jdbcType=VARCHAR};
+    </update>
+
+    <select id="selectByUserPhone" resultType="User">
+        select * from t_user where user_phone=#{userPhone};
+    </select>
+</mapper>
