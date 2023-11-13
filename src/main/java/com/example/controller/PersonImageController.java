@@ -1,10 +1,13 @@
 package com.example.controller;
 
 
+import com.example.mapper.PersonImageMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
@@ -14,9 +17,12 @@ import org.springframework.stereotype.Controller;
  * @author taozi
  * @since 2023-11-08
  */
-@Controller
+@RestController
 @CrossOrigin
-@RequestMapping("/person-image")
+@RequestMapping("/personImage")
 public class PersonImageController {
+    @Autowired
+    private PersonImageMapper imageMapper;
+
 
 }

@@ -2,6 +2,7 @@ package com.example.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.entity.PersonImage;
+import org.springframework.stereotype.Repository;
 
 /**
  * <p>
@@ -11,6 +12,7 @@ import com.example.entity.PersonImage;
  * @author taozi
  * @since 2023-11-08
  */
+@Repository
 public interface PersonImageMapper extends BaseMapper<PersonImage> {
 
 }
