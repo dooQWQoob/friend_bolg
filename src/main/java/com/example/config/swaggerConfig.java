@@ -22,10 +22,21 @@ import java.util.ArrayList;
 public class swaggerConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/**")
+                .addResourceLocations("classpath:/static/")
+                .addResourceLocations("classpath:/templates/");
         registry.addResourceHandler("swagger-ui.html")
                 .addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**").addResourceLocations(
                 "classpath:/META-INF/resources/webjars/");
+
+        // 告知系统upload 当成 静态资源访问
+        String property = System.getProperty("user.dir");
+        String path =  property+"\\src\\main\\resources\\static\\UserImage\\";
+        String mp3Path = property+"\\src\\main\\resources\\static\\UserMp3\\";
+        // 这里是访问地址匹配，只要匹配到 upload 字段的话，就当静态资源映射下
+        registry.addResourceHandler("/UserImage/**").addResourceLocations("file:"+path);
+        registry.addResourceHandler("/UserMp3/**").addResourceLocations("file"+mp3Path);
     }
 
     //配置swagger的Docket的Bean对象

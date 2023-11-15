@@ -43,7 +43,7 @@ public class Comments implements Serializable {
     /**
      * 评论日期
      */
-    private LocalDateTime commentDate;
+    private String commentDate;
 
     /**
      * 评论内容
@@ -83,11 +83,11 @@ public class Comments implements Serializable {
     public void setArticleThumbs(Long articleThumbs) {
         this.articleThumbs = articleThumbs;
     }
-    public LocalDateTime getCommentDate() {
+    public String getCommentDate() {
         return commentDate;
     }
 
-    public void setCommentDate(LocalDateTime commentDate) {
+    public void setCommentDate(String commentDate) {
         this.commentDate = commentDate;
     }
     public String getCommentContent() {

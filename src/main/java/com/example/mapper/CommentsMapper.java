@@ -1,7 +1,9 @@
 package com.example.mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.entity.Comments;
+import org.springframework.stereotype.Repository;
 
 /**
  * <p>
@@ -11,6 +13,9 @@ import com.example.entity.Comments;
  * @author taozi
  * @since 2023-11-08
  */
+@Repository
 public interface CommentsMapper extends BaseMapper<Comments> {
+
+    int deleteByCommentIdAndUserId(@Param("commentId") Long commentId, @Param("userId") Long userId);
 
 }

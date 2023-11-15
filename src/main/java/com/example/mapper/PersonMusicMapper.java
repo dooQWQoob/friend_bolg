@@ -2,6 +2,7 @@ package com.example.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.entity.PersonMusic;
+import org.springframework.stereotype.Repository;
 
 /**
  * <p>
@@ -11,6 +12,7 @@ import com.example.entity.PersonMusic;
  * @author taozi
  * @since 2023-11-08
  */
+@Repository
 public interface PersonMusicMapper extends BaseMapper<PersonMusic> {
 
 }

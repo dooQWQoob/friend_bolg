@@ -30,6 +30,10 @@ public class PersonMusic implements Serializable {
     private Long userId;
 
     /**
+     * 音乐名称
+     */
+    private String musicName;
+    /**
      * 用户音乐路径
      */
     private String musicPath;
@@ -48,6 +52,15 @@ public class PersonMusic implements Serializable {
     public void setUserId(Long userId) {
         this.userId = userId;
     }
+
+    public String getMusicName() {
+        return musicName;
+    }
+
+    public void setMusicName(String musicName) {
+        this.musicName = musicName;
+    }
+
     public String getMusicPath() {
         return musicPath;
     }
@@ -59,9 +72,10 @@ public class PersonMusic implements Serializable {
     @Override
     public String toString() {
         return "PersonMusic{" +
-            "musicId=" + musicId +
-            ", userId=" + userId +
-            ", musicPath=" + musicPath +
-        "}";
+                "musicId=" + musicId +
+                ", musicName='" + musicName + '\'' +
+                ", musicPath='" + musicPath + '\'' +
+                ", userId=" + userId +
+                '}';
     }
 }
