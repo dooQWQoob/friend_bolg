@@ -1,4 +1,5 @@
 package com.example.mapper;
+import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -16,4 +17,12 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface ArticlesMapper extends BaseMapper<Articles> {
     List<Articles> selectAllArticles();
+
+    int countArticle();
+
+    List<Articles> selectByDay();
+
+    int countByUserId(@Param("userId") Long userId);
+
+    List<Articles> selectAllUser(@Param("userId") Long userId);
 }

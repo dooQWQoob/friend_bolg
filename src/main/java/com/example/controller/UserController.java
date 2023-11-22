@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Base64;
+import java.util.List;
 
 /**
  * <p>
@@ -150,5 +151,18 @@ public class UserController {
         } else {
             return R.error().data("msg","邮箱或密码错误");
         }
+    }
+
+    @ApiOperation("返回所有博主")
+    @GetMapping("/allUser")
+    public R allUser(){
+        List<User> users = userMapper.selectList(null);
+        users.forEach((u)->{
+            if (u.getUserPhoto()!=null){
+                Base64.Decoder decoder = Base64.getDecoder();
+                u.setUserPhoto(decoder.decode(u.getUserPhoto()));
+            }
+        });
+        return R.ok().data("userlist",users);
     }
 }

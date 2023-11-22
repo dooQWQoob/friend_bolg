@@ -3,6 +3,24 @@
 <mapper namespace="com.example.mapper.ArticlesMapper">
 
     <select id="selectAllArticles" resultType="Articles">
-        select * from t_articles
+        select * from t_articles order by article_date desc;
     </select>
+
+    <select id="countArticle" resultType="int">
+        select count(*) from t_articles
+    </select>
+
+    <select id="selectByDay" resultType="com.example.entity.Articles">
+        select article_id,article_title,article_content,article_date,article_views from t_articles where DAY(article_date)= DAY(NOW());
+    </select>
+
+    <select id="countByUserId" resultType="int">
+        select count(*) from t_articles where user_id = #{userId,jdbcType=NUMERIC}
+    </select>
+
+    <select id="selectAllUser" resultType="Articles">
+        select article_id,article_title,article_content,article_date from t_articles where user_id = #{userId,jdbcType=NUMERIC} order by article_date desc limit 0,3;
+    </select>
+
+
 </mapper>

@@ -18,4 +18,5 @@ public interface CommentsMapper extends BaseMapper<Comments> {
 
     int deleteByCommentIdAndUserId(@Param("commentId") Long commentId, @Param("userId") Long userId);
 
+    int countByArticleId(@Param("articleId") Long articleId);
 }

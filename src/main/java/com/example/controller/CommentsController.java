@@ -3,13 +3,16 @@ package com.example.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.example.entity.Articles;
 import com.example.entity.Comments;
+import com.example.mapper.ArticlesMapper;
 import com.example.mapper.CommentsMapper;
 import com.example.utils.R;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,6 +29,9 @@ import java.util.List;
 public class CommentsController {
     @Autowired
     private CommentsMapper commentsMapper;
+
+    @Autowired
+    private ArticlesMapper articlesMapper;
 
     @ApiOperation("新发表评论")
     @PostMapping(value = "/addComment",produces = {"application/json;charset=UTF-8;"})
@@ -73,14 +79,22 @@ public class CommentsController {
         QueryWrapper<Comments> wrapper = new QueryWrapper<>();
         wrapper.eq("user_id",userid);
         List<Comments> comments = commentsMapper.selectList(wrapper);
-        return R.ok().data("comments",comments);
+        ArrayList<Long> articlesIds = new ArrayList<>();
+        comments.forEach((c)->{
+            articlesIds.add(c.getArticleId());
+        });
+        List<Articles> articles = articlesMapper.selectBatchIds(articlesIds);
+        articles.forEach((a)->{
+            a.setArtcleImage(null);
+        });
+        return R.ok().data("comments",comments).data("articles",articles);
     }
 
     @ApiOperation("查询当前博客评论")
     @GetMapping("/selectCommentByArticleId/{ArticleId}")
     public R selectCommentByArticleId(@PathVariable Integer ArticleId){
         QueryWrapper<Comments> wrapper = new QueryWrapper<>();
-        wrapper.eq("article_id",ArticleId);
+        wrapper.eq("article_id",ArticleId).orderByDesc("comment_date");
         List<Comments> comments = commentsMapper.selectList(wrapper);
         return R.ok().data("comments",comments);
     }

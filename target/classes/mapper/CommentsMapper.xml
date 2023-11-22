@@ -5,4 +5,7 @@
     <delete id="deleteByCommentIdAndUserId">
         delete from t_comments where comment_id = #{commentId,jdbcType=NUMERIC} AND user_id = #{userId,jdbcType=NUMERIC}
     </delete>
+    <select id="countByArticleId" resultType="int">
+        select count(article_id) from t_comments where article_id = #{articleId,jdbcType=NUMERIC}
+    </select>
 </mapper>

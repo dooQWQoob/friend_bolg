@@ -68,7 +68,10 @@ public class PersonMusicController {
         personMusic.setMusicPath(filepath);
         //音乐名称,开始到有 . 结束
         String mp3Name = file.getOriginalFilename().substring(0, file.getOriginalFilename().indexOf("."));
-        personMusic.setMusicName(mp3Name);
+        //判断用户是否自定义音乐名称
+        if (personMusic.getMusicName()==null){
+            personMusic.setMusicName(mp3Name);
+        }
 
         int insert = musicMapper.insert(personMusic);
         if (insert > 0) {

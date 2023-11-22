@@ -41,7 +41,14 @@ public class UserFriendsController {
         wrapper.eq("user_id",userFriends.getUserId()).eq("user_friends_id",userFriends.getUserFriendsId());
         UserFriends friends = userFriendsMapper.selectOne(wrapper);
         if (friends!=null){
-            return R.error().data("errmsg","您已发送好友请求,请等待好友确认");
+            if ("0".equals(friends.getUserStatus())){
+                return R.error().data("errmsg","您已发送好友请求,请等待好友确认");
+            }else if ("1".equals(friends.getUserStatus())){
+                return R.error().data("errmsg","你们已是好友关系");
+            }else {
+                return R.error().data("errmsg","您已发送好友请求");
+            }
+
         }else {
             userFriendsMapper.insert(userFriends);
             return R.ok().data("msg","发起添加好友成功");
