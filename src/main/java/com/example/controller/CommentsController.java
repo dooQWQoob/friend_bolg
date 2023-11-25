@@ -17,7 +17,7 @@ import java.util.List;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author taozi
@@ -34,68 +34,71 @@ public class CommentsController {
     private ArticlesMapper articlesMapper;
 
     @ApiOperation("新发表评论")
-    @PostMapping(value = "/addComment",produces = {"application/json;charset=UTF-8;"})
-    public R addComment(@RequestBody Comments comments){
+    @PostMapping(value = "/addComment", produces = {"application/json;charset=UTF-8;"})
+    public R addComment(@RequestBody Comments comments) {
         int insert = commentsMapper.insert(comments);
-        if (insert>0){
-            return R.ok().data("msg","评论成功");
-        }else {
-            return R.error().data("errmsg","评论失败,请注意您的言辞");
+        if (insert > 0) {
+            return R.ok().data("msg", "评论成功");
+        } else {
+            return R.error().data("errmsg", "评论失败,请注意您的言辞");
         }
     }
 
     @ApiOperation("修改评论")
-    @PostMapping(value = "/upComments",produces = {"application/json;charset=UTF-8;"})
-    public R upComments(@RequestBody Comments comments){
+    @PostMapping(value = "/upComments", produces = {"application/json;charset=UTF-8;"})
+    public R upComments(@RequestBody Comments comments) {
         UpdateWrapper<Comments> wrapper = new UpdateWrapper<>();
-        wrapper.set("comment_content",comments.getCommentContent())
-                .set("comment_date",comments.getCommentDate())
-                .eq("comment_id",comments.getCommentId())
-                .eq("user_id",comments.getUserId())
-                .eq("article_id",comments.getArticleId())
-                .eq("parent_comment_id",comments.getParentCommentId());
+        wrapper.set("comment_content", comments.getCommentContent())
+                .set("comment_date", comments.getCommentDate())
+                .eq("comment_id", comments.getCommentId())
+                .eq("user_id", comments.getUserId())
+                .eq("article_id", comments.getArticleId())
+                .eq("parent_comment_id", comments.getParentCommentId());
         int update = commentsMapper.update(null, wrapper);
-        if (update>0){
-            return R.ok().data("msg","修改评论");
-        }else {
-            return R.error().data("errmsg","评论失败,请注意您的言辞");
+        if (update > 0) {
+            return R.ok().data("msg", "修改评论");
+        } else {
+            return R.error().data("errmsg", "评论失败,请注意您的言辞");
         }
     }
 
     @ApiOperation("删除评论")
     @GetMapping("/deleteByCommentId")
-    public R deleteByCommentId(@RequestParam Long commentId,@RequestParam Long userId){
+    public R deleteByCommentId(@RequestParam Long commentId, @RequestParam Long userId) {
         int i = commentsMapper.deleteByCommentIdAndUserId(commentId, userId);
-        if (i>0){
-            return R.ok().data("msg","删除评论成功");
-        }else {
-            return R.error().data("errmsg","删除评论失败");
+        if (i > 0) {
+            return R.ok().data("msg", "删除评论成功");
+        } else {
+            return R.error().data("errmsg", "删除评论失败");
         }
     }
 
     @ApiOperation("查看我的评论")
     @GetMapping("/selectCommentByUserId/{userid}")
-    public R selectCommentByUserId(@PathVariable Integer userid){
+    public R selectCommentByUserId(@PathVariable Integer userid) {
         QueryWrapper<Comments> wrapper = new QueryWrapper<>();
-        wrapper.eq("user_id",userid);
+        wrapper.eq("user_id", userid);
         List<Comments> comments = commentsMapper.selectList(wrapper);
         ArrayList<Long> articlesIds = new ArrayList<>();
-        comments.forEach((c)->{
+        comments.forEach((c) -> {
             articlesIds.add(c.getArticleId());
         });
-        List<Articles> articles = articlesMapper.selectBatchIds(articlesIds);
-        articles.forEach((a)->{
-            a.setArtcleImage(null);
-        });
-        return R.ok().data("comments",comments).data("articles",articles);
+        List<Articles> articles = null;
+        if (comments.size()!=0){
+            articles =  articlesMapper.selectBatchIds(articlesIds);
+            articles.forEach((a) -> {
+                a.setArtcleImage(null);
+            });
+        }
+        return R.ok().data("comments", comments).data("articles", articles);
     }
 
     @ApiOperation("查询当前博客评论")
     @GetMapping("/selectCommentByArticleId/{ArticleId}")
-    public R selectCommentByArticleId(@PathVariable Integer ArticleId){
+    public R selectCommentByArticleId(@PathVariable Integer ArticleId) {
         QueryWrapper<Comments> wrapper = new QueryWrapper<>();
-        wrapper.eq("article_id",ArticleId).orderByDesc("comment_date");
+        wrapper.eq("article_id", ArticleId).orderByDesc("comment_date");
         List<Comments> comments = commentsMapper.selectList(wrapper);
-        return R.ok().data("comments",comments);
+        return R.ok().data("comments", comments);
     }
 }
